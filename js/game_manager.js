@@ -47,7 +47,9 @@ GameManager.prototype.setup = function () {
     this.over        = previousState.over;
     this.won         = previousState.won;
     this.keepPlaying = previousState.keepPlaying;
+    this.zerochance  = previousState.zerochance || 0.1;
   } else {
+    this.zerochance  = 0;
     this.grid        = new Grid(this.size);
     this.score       = 0;
     this.over        = false;
@@ -72,7 +74,10 @@ GameManager.prototype.addStartTiles = function () {
 // Adds a tile in a random position
 GameManager.prototype.addRandomTile = function () {
   if (this.grid.cellsAvailable()) {
-    var value = Math.random() < 0.9 ? 2 : 4;
+    var spawnZero = Math.random() < this.zerochance;
+    var value = spawnZero ? 0 : 2;
+    this.zerochance += spawnZero ? -this.zerochance : 0.02;
+    document.title = this.zerochance;
     var tile = new Tile(this.grid.randomAvailableCell(), value);
 
     this.grid.insertTile(tile);
