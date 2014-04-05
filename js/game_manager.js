@@ -77,7 +77,6 @@ GameManager.prototype.addRandomTile = function () {
     var spawnZero = Math.random() < this.zerochance;
     var value = spawnZero ? 0 : 2;
     this.zerochance += spawnZero ? -this.zerochance : 0.02;
-    document.title = this.zerochance;
     var tile = new Tile(this.grid.randomAvailableCell(), value);
 
     this.grid.insertTile(tile);
